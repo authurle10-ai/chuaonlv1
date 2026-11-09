@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Chùa Vô Lượng - Phật Cảnh Đại Bảo Điện Online</title>
-    <!-- Thư viện Three.js chuẩn -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -19,29 +17,29 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background-color: #140803;
+            background: radial-gradient(circle at 50% 22%, #fffbeb 0%, #fbbf24 22%, #b45309 50%, #451a03 80%, #1c0a02 100%);
             color: #fef3c7;
         }
 
-        /* 1. BẦU TRỜI PHẬT CẢNH & TƯỢNG PHẬT */
+        /* 1. BẦU TRỜI PHẬT CẢNH & TÔN TƯỢNG */
         #celestial-bg {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             z-index: 1;
             pointer-events: none;
-            background: radial-gradient(circle at 50% 24%, #fffbeb 0%, #fbbf24 18%, #b45309 42%, #451a03 72%, #140803 100%);
-            transition: background 1s ease;
+            background: radial-gradient(circle at 50% 22%, #fffbeb 0%, #fbbf24 22%, #b45309 50%, #451a03 80%, #1c0a02 100%);
+            transition: background 0.8s ease;
             overflow: hidden;
         }
         .aura-glow {
             position: absolute;
             left: 50%;
-            top: 24%;
+            top: 23%;
             transform: translate(-50%, -50%);
-            width: 460px;
-            height: 460px;
+            width: 480px;
+            height: 480px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(254,240,138,0.45) 0%, rgba(245,158,11,0.15) 50%, transparent 75%);
+            background: radial-gradient(circle, rgba(254,240,138,0.6) 0%, rgba(245,158,11,0.2) 55%, transparent 75%);
         }
         @keyframes spinSlow {
             from { transform: translate(-50%, -50%) rotate(0deg); }
@@ -49,21 +47,21 @@
         }
         @keyframes floatDeity {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-6px); }
+            50% { transform: translateY(-7px); }
         }
         .mandala-svg {
             position: absolute;
             left: 50%;
-            top: 24%;
-            width: 270px;
-            height: 270px;
-            opacity: 0.5;
-            animation: spinSlow 40s linear infinite;
+            top: 23%;
+            width: 280px;
+            height: 280px;
+            opacity: 0.55;
+            animation: spinSlow 38s linear infinite;
         }
         .shrine-center-wrap {
             position: absolute;
             left: 50%;
-            top: 25%;
+            top: 24%;
             transform: translate(-50%, -50%);
             display: flex;
             align-items: center;
@@ -73,8 +71,8 @@
             max-width: 780px;
         }
         .couplet-box {
-            background: rgba(69, 10, 10, 0.9);
-            border: 2px solid #fbbf24;
+            background: rgba(127, 29, 29, 0.92);
+            border: 2px solid #fde047;
             border-radius: 8px;
             padding: 10px 8px;
             display: flex;
@@ -82,9 +80,9 @@
             align-items: center;
             font-weight: bold;
             font-size: 12px;
-            color: #fde047;
+            color: #fef08a;
             line-height: 1.5;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.7);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
         }
         @media (max-width: 680px) {
             .couplet-box { display: none; }
@@ -96,16 +94,16 @@
             align-items: center;
         }
         .hoanh-phi {
-            background: linear-gradient(90deg, #450a0a, #7f1d1d, #450a0a);
-            border: 1.5px solid #fde047;
+            background: linear-gradient(90deg, #7f1d1d, #b91c1c, #7f1d1d);
+            border: 2px solid #fde047;
             color: #fef08a;
-            font-weight: 800;
+            font-weight: 900;
             font-size: 12px;
-            padding: 3px 16px;
+            padding: 4px 18px;
             border-radius: 99px;
             letter-spacing: 1px;
             margin-bottom: 4px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
         }
         .statue-holder {
             width: 150px;
@@ -117,14 +115,14 @@
         }
         .altar-table {
             margin-top: -6px;
-            background: linear-gradient(180deg, #78350f, #271206);
-            border: 1.5px solid #fbbf24;
+            background: linear-gradient(180deg, #92400e, #451a03);
+            border: 2px solid #fbbf24;
             border-radius: 10px 10px 4px 4px;
             padding: 4px 20px;
             display: flex;
             align-items: center;
             gap: 16px;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.8);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.75);
         }
         .censer-pot {
             background: linear-gradient(90deg, #d97706, #fde047, #d97706);
@@ -136,14 +134,36 @@
             border: 1px solid #fff;
         }
 
-        /* 2. KHUNG 3D SÂN CHÙA */
-        #canvas-container {
+        /* 2. CANVAS SÂN CHÙA 2.5D (KHÔNG CẦN WEBGL) */
+        #temple-canvas {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             z-index: 2;
         }
 
-        /* 3. LỚP GIAO DIỆN ĐIỀU KHIỂN */
+        /* 3. HIỆU ỨNG SƯ TỬ / QUÀ TẶNG KHỦNG GIỮA MÀN HÌNH */
+        #big-gift-banner {
+            position: fixed;
+            left: 50%;
+            top: 42%;
+            transform: translate(-50%, -50%) scale(0);
+            z-index: 45;
+            background: radial-gradient(circle, rgba(254,240,138,0.95) 0%, rgba(217,119,6,0.95) 70%, rgba(120,53,15,0.98) 100%);
+            border: 3px solid #ffffff;
+            border-radius: 24px;
+            padding: 16px 28px;
+            text-align: center;
+            color: #271206;
+            box-shadow: 0 0 50px rgba(251,191,36,0.95);
+            pointer-events: none;
+            transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        #big-gift-banner.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* 4. LỚP GIAO DIỆN ĐIỀU KHIỂN */
         .ui-layer {
             position: relative;
             z-index: 10;
@@ -168,12 +188,12 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(25, 14, 6, 0.88);
-            border: 1.5px solid rgba(251, 191, 36, 0.65);
+            background: rgba(35, 18, 7, 0.9);
+            border: 1.5px solid #fbbf24;
             padding: 4px 12px 4px 6px;
             border-radius: 99px;
             cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
         .avatar-circle {
             width: 34px;
@@ -205,16 +225,15 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            background: rgba(28, 16, 8, 0.9);
-            border: 1px solid rgba(251, 191, 36, 0.5);
+            background: rgba(35, 18, 7, 0.92);
+            border: 1px solid #fbbf24;
             padding: 4px 6px 4px 12px;
             border-radius: 99px;
             font-size: 12px;
             color: #fde68a;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5);
         }
         .guest-cta-btn {
-            background: linear-gradient(90deg, #fbbf24, #d97706);
+            background: linear-gradient(90deg, #fde047, #f59e0b);
             color: #1c0a00;
             border: none;
             padding: 5px 12px;
@@ -227,7 +246,7 @@
             display: none;
             align-items: center;
             gap: 6px;
-            background: rgba(6, 78, 59, 0.85);
+            background: rgba(6, 78, 59, 0.92);
             border: 1px solid #34d399;
             padding: 4px 12px;
             border-radius: 99px;
@@ -235,10 +254,1371 @@
             color: #a7f3d0;
         }
 
+        .top-right-group {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .sen-pill {
+            background: rgba(35, 18, 7, 0.9);
+            border: 1px solid #fbbf24;
+            padding: 5px 10px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 800;
+            color: #fde047;
+        }
+        .donate-btn {
+            background: linear-gradient(90deg, #f59e0b, #ea580c);
+            color: #fff;
+            border: 1.5px solid #fef08a;
+            padding: 6px 12px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.6);
+        }
+        .gift-top-btn {
+            background: linear-gradient(90deg, #dc2626, #b91c1c);
+            color: #fef08a;
+            border: 1.5px solid #fde047;
+            padding: 6px 12px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.6);
+        }
+        .icon-circle-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: rgba(35, 18, 7, 0.9);
+            border: 1px solid #fbbf24;
+            color: #fde047;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sub-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
         .shrine-tabs {
             display: flex;
             gap: 5px;
-            background: rgba(15, 8, 4, 0.8);
+            background: rgba(35, 18, 7, 0.85);
             padding: 4px;
             border-radius: 99px;
-            border: 1px solid rgba(251, 191, 36, 0.4);
+            border: 1px solid rgba(251, 191, 36, 0.5);
+        }
+        .tab-btn {
+            background: transparent;
+            color: #fde68a;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 99px;
+            font-size: 11.5px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .tab-btn.active {
+            background: linear-gradient(90deg, #fde047, #f59e0b);
+            color: #1c0a00;
+        }
+
+        .marquee-bar {
+            margin: 5px auto 0;
+            background: rgba(69, 26, 3, 0.9);
+            border: 1px solid #fbbf24;
+            padding: 4px 14px;
+            border-radius: 99px;
+            font-size: 11.5px;
+            text-align: center;
+            max-width: 560px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #fef3c7;
+        }
+
+        /* Khung Chat & Đèn Nguyện */
+        .side-panel {
+            position: absolute;
+            width: 260px;
+            background: linear-gradient(180deg, rgba(50, 24, 10, 0.93), rgba(24, 11, 4, 0.96));
+            border: 1px solid #fbbf24;
+            border-radius: 14px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.75);
+            z-index: 20;
+        }
+        #chat-panel {
+            left: 12px;
+            bottom: 66px;
+            height: 205px;
+        }
+        #lantern-panel {
+            right: 12px;
+            top: 125px;
+            max-height: 250px;
+        }
+        .panel-header {
+            font-size: 12px;
+            font-weight: 800;
+            color: #fde047;
+            border-bottom: 1px solid rgba(251, 191, 36, 0.35);
+            padding-bottom: 5px;
+            margin-bottom: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .scroll-list {
+            flex: 1;
+            overflow-y: auto;
+            font-size: 11.5px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-right: 4px;
+        }
+        .prayer-card {
+            background: rgba(0,0,0,0.45);
+            border: 1px solid rgba(245, 158, 11, 0.35);
+            border-radius: 8px;
+            padding: 6px 8px;
+        }
+        .chat-input-row {
+            display: flex;
+            gap: 4px;
+            margin-top: 6px;
+        }
+        .text-input {
+            flex: 1;
+            background: rgba(0,0,0,0.65);
+            border: 1px solid #fbbf24;
+            color: #fff;
+            border-radius: 8px;
+            padding: 7px 10px;
+            font-size: 12.5px;
+            outline: none;
+        }
+        .gold-action-btn {
+            background: linear-gradient(90deg, #fde047, #f59e0b);
+            color: #1c0a00;
+            border: none;
+            border-radius: 8px;
+            padding: 7px 12px;
+            font-size: 12.5px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        /* Cụm nút Gõ Mõ & Tặng Quà nhanh bên phải dưới */
+        .action-cluster {
+            position: absolute;
+            right: 12px;
+            bottom: 66px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+            z-index: 15;
+        }
+        .mo-big-btn {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fde047 0%, #d97706 70%, #78350f 100%);
+            border: 2.5px solid #fff;
+            box-shadow: 0 0 22px rgba(251, 191, 36, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #271206;
+            font-weight: 900;
+            font-size: 10px;
+        }
+        .mo-big-btn:active { transform: scale(0.9); }
+        .grid-6-btns {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            background: rgba(30, 14, 5, 0.9);
+            padding: 6px;
+            border-radius: 14px;
+            border: 1px solid #fbbf24;
+        }
+        .small-wood-btn {
+            width: 48px;
+            height: 44px;
+            border-radius: 10px;
+            background: linear-gradient(180deg, #78350f, #451a03);
+            border: 1px solid rgba(251, 191, 36, 0.55);
+            color: #fde68a;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .small-wood-btn:active { transform: scale(0.92); }
+
+        #joystick-zone {
+            position: absolute;
+            left: 16px;
+            bottom: 72px;
+            z-index: 15;
+            display: none;
+            touch-action: none;
+        }
+        .joy-base {
+            width: 86px;
+            height: 86px;
+            border-radius: 50%;
+            background: rgba(30, 14, 5, 0.65);
+            border: 2px solid #fbbf24;
+            position: relative;
+        }
+        .joy-stick {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fde047, #d97706);
+            border: 2px solid #fff;
+            position: absolute;
+            top: 23px;
+            left: 23px;
+        }
+
+        .mobile-toggles {
+            position: absolute;
+            left: 10px;
+            top: 130px;
+            display: none;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 25;
+        }
+        @media (max-width: 768px) {
+            #chat-panel, #lantern-panel { display: none; }
+            #chat-panel.show-mob, #lantern-panel.show-mob { display: flex; }
+            #joystick-zone { display: block; }
+            .mobile-toggles { display: flex; }
+        }
+
+        /* Thanh Menu Đáy */
+        .bottom-dock {
+            background: rgba(28, 12, 4, 0.94);
+            border-top: 1.5px solid #fbbf24;
+            padding: 7px 10px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            overflow-x: auto;
+        }
+        .dock-item {
+            background: linear-gradient(180deg, #6b3e1e, #3d210e);
+            border: 1px solid #fbbf24;
+            color: #fef3c7;
+            padding: 6px 11px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        /* Modal Chung */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.82);
+            z-index: 50;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+        }
+        .modal-backdrop.open { display: flex; }
+        .modal-box {
+            background: linear-gradient(180deg, #3d1d0a, #1c0c04);
+            border: 2px solid #fbbf24;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            padding: 18px;
+            position: relative;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.95);
+        }
+        .close-btn {
+            position: absolute;
+            right: 14px;
+            top: 12px;
+            background: none;
+            border: none;
+            color: #fbbf24;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .auth-tabs {
+            display: flex;
+            background: rgba(0,0,0,0.45);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(251,191,36,0.3);
+        }
+        .auth-tab-btn {
+            flex: 1;
+            padding: 7px;
+            border: none;
+            background: transparent;
+            color: #fde68a;
+            font-weight: 800;
+            font-size: 13px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .auth-tab-btn.active {
+            background: linear-gradient(90deg, #fde047, #f59e0b);
+            color: #1c0a00;
+        }
+        .form-group { margin-bottom: 10px; }
+        .form-label {
+            display: block;
+            font-size: 11.5px;
+            color: #fde68a;
+            margin-bottom: 4px;
+            font-weight: 700;
+        }
+
+        #floating-container {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 40;
+            overflow: hidden;
+        }
+        .float-text {
+            position: absolute;
+            font-weight: 900;
+            font-size: 18px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.95);
+            transition: all 1s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== 1. BẦU TRỜI & TÔN TƯỢNG PHẬT ==================== -->
+    <div id="celestial-bg">
+        <div class="aura-glow"></div>
+
+        <svg class="mandala-svg" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="92" fill="none" stroke="#fef08a" stroke-width="1.5" stroke-dasharray="6 4"/>
+            <circle cx="100" cy="100" r="76" fill="none" stroke="#f59e0b" stroke-width="1.2"/>
+            <polygon points="100,10 122,78 190,100 122,122 100,190 78,122 10,100 78,78" fill="rgba(254,240,138,0.12)" stroke="#fde047" stroke-width="1"/>
+        </svg>
+
+        <div class="shrine-center-wrap">
+            <div class="couplet-box">
+                <span>PHẬT</span><span>NHẬT</span><span>TĂNG</span><span>HUY</span><span>☸</span><span>TỊNH</span><span>ĐỘ</span>
+            </div>
+
+            <div class="deity-column">
+                <div id="shrine-title" class="hoanh-phi">NAM MÔ A DI ĐÀ PHẬT</div>
+
+                <div class="statue-holder">
+                    <svg id="svg-adida" width="145" height="160" viewBox="0 0 200 220">
+                        <circle cx="100" cy="62" r="45" fill="rgba(254,240,138,0.35)" stroke="#fef08a" stroke-width="2"/>
+                        <circle cx="100" cy="34" r="10" fill="#b45309"/>
+                        <path d="M76 52 C76 34, 124 34, 124 52 Z" fill="#78350f"/>
+                        <ellipse cx="100" cy="62" rx="22" ry="24" fill="#fde047" stroke="#b45309" stroke-width="1.5"/>
+                        <circle cx="100" cy="53" r="2.2" fill="#fff"/>
+                        <path d="M89 61 Q94 64 97 61 M103 61 Q106 64 111 61" fill="none" stroke="#78350f" stroke-width="1.8"/>
+                        <path d="M95 72 Q100 76 105 72" fill="none" stroke="#92400e" stroke-width="1.8"/>
+                        <path d="M68 92 C60 115, 55 152, 52 168 L148 168 C145 152, 140 115, 132 92 Z" fill="#f59e0b" stroke="#fef08a" stroke-width="1.5"/>
+                        <path d="M74 92 L126 92 L136 166 L64 166 Z" fill="#dc2626" opacity="0.85"/>
+                        <text x="100" y="116" text-anchor="middle" fill="#fef08a" font-size="15" font-weight="bold">卍</text>
+                        <ellipse cx="100" cy="145" rx="22" ry="8" fill="#fde047"/>
+                        <circle cx="100" cy="138" r="8" fill="#fef08a"/>
+                        <path d="M36 168 Q100 198 164 168 Q145 192 100 192 Q55 192 36 168 Z" fill="#ec4899"/>
+                        <path d="M52 166 Q100 136 148 166 Z" fill="#f9a8d4" stroke="#fff" stroke-width="1"/>
+                    </svg>
+
+                    <svg id="svg-quanam" style="display:none" width="145" height="160" viewBox="0 0 200 220">
+                        <circle cx="100" cy="60" r="46" fill="rgba(167,243,208,0.35)" stroke="#a7f3d0" stroke-width="2"/>
+                        <path d="M65 62 C68 20, 132 20, 135 62 L152 168 L48 168 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+                        <polygon points="100,18 86,44 114,44" fill="#fbbf24"/>
+                        <ellipse cx="100" cy="64" rx="20" ry="23" fill="#fff1f2" stroke="#f59e0b" stroke-width="1.2"/>
+                        <circle cx="100" cy="54" r="2" fill="#ef4444"/>
+                        <path d="M90 63 Q94 66 97 63 M103 63 Q106 66 110 63" fill="none" stroke="#334155" stroke-width="1.6"/>
+                        <path d="M64 92 L50 168 L150 168 L136 92 Z" fill="#ffffff" stroke="#fde047" stroke-width="1.5"/>
+                        <ellipse cx="78" cy="132" rx="7" ry="12" fill="#fde047" stroke="#b45309" stroke-width="1.2"/>
+                        <path d="M40 168 Q100 196 160 168 Z" fill="#f472b6"/>
+                        <path d="M55 166 Q100 138 145 166 Z" fill="#fce7f3"/>
+                    </svg>
+
+                    <svg id="svg-thichca" style="display:none" width="145" height="160" viewBox="0 0 200 220">
+                        <circle cx="100" cy="58" r="48" fill="rgba(253,224,71,0.35)" stroke="#fde047" stroke-width="2" stroke-dasharray="4 2"/>
+                        <circle cx="100" cy="33" r="10" fill="#451a03"/>
+                        <path d="M76 52 C76 34, 124 34, 124 52 Z" fill="#271206"/>
+                        <ellipse cx="100" cy="62" rx="22" ry="24" fill="#fde047" stroke="#b45309" stroke-width="1.5"/>
+                        <path d="M66 92 L50 168 L150 168 L134 92 Z" fill="#d97706" stroke="#fef08a" stroke-width="1.5"/>
+                        <ellipse cx="100" cy="142" rx="14" ry="10" fill="#1c1917" stroke="#fde047" stroke-width="1.5"/>
+                        <path d="M38 168 Q100 198 162 168 Z" fill="#f59e0b"/>
+                        <path d="M55 166 Q100 138 145 166 Z" fill="#fde047"/>
+                    </svg>
+                </div>
+
+                <div class="altar-table">
+                    <span style="color:#fde047;font-size:14px">🕯️</span>
+                    <div class="censer-pot">卍 LƯ HƯƠNG TAM BẢO</div>
+                    <span style="color:#fde047;font-size:14px">🕯️</span>
+                </div>
+            </div>
+
+            <div class="couplet-box">
+                <span>PHÁP</span><span>LUÂN</span><span>THƯỜNG</span><span>CHUYỂN</span><span>☸</span><span>AN</span><span>LẠC</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== 2. CANVAS SÂN CHÙA 2.5D ==================== -->
+    <canvas id="temple-canvas"></canvas>
+
+    <!-- BANNER HIỆU ỨNG SƯ TỬ / QUÀ KHỦNG -->
+    <div id="big-gift-banner">
+        <div id="big-gift-icon" style="font-size:54px">🦁</div>
+        <div id="big-gift-title" style="font-size:18px;font-weight:900;text-transform:uppercase">SƯ TỬ VÀNG HỘ PHÁP</div>
+        <div id="big-gift-sub" style="font-size:13px;font-weight:700;margin-top:4px">Thí chủ vừa cúng dường quà lớn!</div>
+    </div>
+
+    <!-- ==================== 3. GIAO DIỆN TƯƠNG TÁC ==================== -->
+    <div class="ui-layer">
+        <div class="pointer-auto">
+            <div class="top-bar">
+                <div class="profile-pill" onclick="openAuthModal('login')">
+                    <div class="avatar-circle">
+                        <span id="ui-avatar">T</span>
+                        <span id="ui-level" class="lvl-badge">1</span>
+                    </div>
+                    <div>
+                        <div style="font-size:13px;font-weight:800;color:#fef3c7" id="ui-name">Thích Chan</div>
+                        <div style="font-size:10.5px;color:#fde047;font-weight:700">Cấp <span id="ui-lvl-txt">1</span> · <span id="ui-merit">10</span> công đức</div>
+                    </div>
+                </div>
+
+                <div id="guest-banner" class="guest-banner">
+                    <span>Chơi thử · còn <b id="guest-timer">5:00</b></span>
+                    <button class="guest-cta-btn" onclick="openAuthModal('register')">Tạo tài khoản để giữ công đức</button>
+                </div>
+
+                <div id="logged-banner" class="logged-badge">
+                    <span>✅ Đã đăng nhập: <b id="logged-username"></b></span>
+                    <button onclick="logoutUser()" style="background:none;border:1px solid #6ee7b7;color:#a7f3d0;border-radius:99px;padding:2px 8px;font-size:10px;cursor:pointer">Đăng xuất</button>
+                </div>
+
+                <div class="top-right-group">
+                    <button class="donate-btn" onclick="openModal('donate-modal')">🙏 Cúng Dường</button>
+                    <button class="gift-top-btn" onclick="openModal('gift-modal')">🦁 Tặng Hoa / Sư Tử</button>
+                    <div class="sen-pill">🪷 <span id="ui-sen">250</span></div>
+                    <button class="icon-circle-btn" onclick="openAuthModal('login')" title="Tài khoản">👤</button>
+                    <button id="btn-sound" class="icon-circle-btn" onclick="toggleAudio()">🔊</button>
+                </div>
+            </div>
+
+            <div class="sub-top-bar">
+                <div class="shrine-tabs">
+                    <button id="btn-adida" class="tab-btn active" onclick="switchDeity('adida')">🪷 Phật A Di Đà</button>
+                    <button id="btn-quanam" class="tab-btn" onclick="switchDeity('quanam')">🌿 Bồ Tát Quán Âm</button>
+                    <button id="btn-thichca" class="tab-btn" onclick="switchDeity('thichca')">☸️ Phật Thích Ca</button>
+                </div>
+            </div>
+
+            <div id="marquee-box" class="marquee-bar">
+                🙏 Nam Mô A Di Đà Phật — Chào mừng quý Phật tử thập phương về Chùa Vô Lượng lễ Phật, tích công đức!
+            </div>
+        </div>
+
+        <div class="mobile-toggles pointer-auto">
+            <button class="icon-circle-btn" onclick="toggleMobPanel('chat-panel')">💬</button>
+            <button class="icon-circle-btn" onclick="toggleMobPanel('lantern-panel')">🏮</button>
+        </div>
+
+        <!-- Khung Chat -->
+        <div id="chat-panel" class="side-panel pointer-auto">
+            <div class="panel-header">
+                <span>👥 Cộng đồng sân chùa (215 online)</span>
+                <span style="cursor:pointer" onclick="toggleMobPanel('chat-panel')">✕</span>
+            </div>
+            <div id="chat-list" class="scroll-list">
+                <div><b style="color:#fde047">Thích Vô Trí:</b> Nam Mô A Di Đà Phật 🙏</div>
+                <div><b style="color:#6ee7b7">Hoàng Châu:</b> Vừa thả đèn hoa đăng cầu bình an cho gia đình!</div>
+                <div><b style="color:#fdba74">An Hạnh 61:</b> Cúng dường 1 Sư Tử Vàng chúc chùa hưng thịnh 🦁</div>
+            </div>
+            <div class="chat-input-row">
+                <input id="chat-inp" class="text-input" type="text" placeholder="Trò chuyện..." onkeydown="if(event.key==='Enter')sendChat()">
+                <button class="gold-action-btn" onclick="sendChat()">Gửi</button>
+            </div>
+        </div>
+
+        <!-- Bảng Đèn Nguyện -->
+        <div id="lantern-panel" class="side-panel pointer-auto">
+            <div class="panel-header">
+                <span>🏮 Đèn nguyện (108 ngọn đang sáng)</span>
+                <span style="cursor:pointer" onclick="toggleMobPanel('lantern-panel')">✕</span>
+            </div>
+            <div id="prayer-list" class="scroll-list">
+                <div class="prayer-card">
+                    <div style="font-weight:700;color:#fff">“Mong cả nhà bình an, vạn sự hanh thông”</div>
+                    <div style="font-size:10px;color:#fbbf24;margin-top:3px;display:flex;justify-content:space-between">
+                        <span>Trường · vừa xong</span><span>❤️ 12</span>
+                    </div>
+                </div>
+                <div class="prayer-card">
+                    <div style="font-weight:700;color:#fff">“Cầu cha mẹ mạnh khỏe sống lâu trăm tuổi”</div>
+                    <div style="font-size:10px;color:#fbbf24;margin-top:3px;display:flex;justify-content:space-between">
+                        <span>Tịnh Hòa · vừa xong</span><span>❤️ 9</span>
+                    </div>
+                </div>
+            </div>
+            <button class="gold-action-btn" style="margin-top:8px;width:100%" onclick="openModal('lantern-modal')">
+                ✨ Thả đèn nguyện
+            </button>
+        </div>
+
+        <div id="joystick-zone" class="pointer-auto">
+            <div id="joy-base" class="joy-base">
+                <div id="joy-stick" class="joy-stick"></div>
+            </div>
+        </div>
+
+        <!-- Cụm nút Gõ Mõ & Tặng Hoa / Sư Tử nhanh -->
+        <div class="action-cluster pointer-auto">
+            <button class="mo-big-btn" onclick="doAction('mo')">
+                <span style="font-size:22px">🪵</span>
+                <span>GÕ MÕ</span>
+            </button>
+            <div class="grid-6-btns">
+                <button class="small-wood-btn" onclick="sendGift('🪷 Hoa Sen Vàng', 10, '+30 Công Đức', '🪷')">
+                    <span style="font-size:15px">🪷</span><span>Tặng Hoa</span>
+                </button>
+                <button class="small-wood-btn" onclick="sendGift('🦁 Sư Tử Hộ Pháp', 50, '+200 Công Đức', '🦁')">
+                    <span style="font-size:15px">🦁</span><span>Tặng Sư Tử</span>
+                </button>
+                <button class="small-wood-btn" onclick="openModal('donate-modal')">
+                    <span style="font-size:15px">🙏</span><span>Cúng Dường</span>
+                </button>
+                <button class="small-wood-btn" onclick="doAction('lay')">
+                    <span style="font-size:15px">🙇</span><span>Lạy Phật</span>
+                </button>
+                <button class="small-wood-btn" onclick="doAction('kinh')">
+                    <span style="font-size:15px">📖</span><span>Tụng Kinh</span>
+                </button>
+                <button class="small-wood-btn" onclick="doAction('xam')">
+                    <span style="font-size:15px">🎋</span><span>Xin Xăm</span>
+                </button>
+            </div>
+        </div>
+
+        <nav class="bottom-dock pointer-auto">
+            <button class="dock-item" onclick="openAuthModal('login')" style="border-color:#fde047;color:#fde047">👤 Đăng Nhập / Đăng Ký</button>
+            <button class="dock-item" onclick="openModal('donate-modal')">🙏 Cúng Dường Donate</button>
+            <button class="dock-item" onclick="openModal('gift-modal')">🦁 Tặng Hoa / Sư Tử</button>
+            <button class="dock-item" onclick="doAction('xam')">🎋 Xin Xăm</button>
+            <button class="dock-item" onclick="openModal('lantern-modal')">🏮 Thả Hoa Đăng</button>
+        </nav>
+    </div>
+
+    <!-- ==================== MODAL 1: ĐĂNG NHẬP / ĐĂNG KÝ ==================== -->
+    <div id="auth-modal" class="modal-backdrop">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('auth-modal')">✕</button>
+            <h3 style="color:#fde047;text-align:center;margin-bottom:10px">🪷 Tài Khoản Chùa Vô Lượng</h3>
+
+            <div class="auth-tabs">
+                <button id="tab-btn-login" class="auth-tab-btn active" onclick="switchAuthTab('login')">Đăng Nhập</button>
+                <button id="tab-btn-register" class="auth-tab-btn" onclick="switchAuthTab('register')">Đăng Ký Mới</button>
+            </div>
+
+            <div id="auth-status-msg" style="font-size:12px;text-align:center;margin-bottom:8px;min-height:16px;color:#fcd34d"></div>
+
+            <div id="form-login">
+                <div class="form-group">
+                    <label class="form-label">Tên tài khoản:</label>
+                    <input id="login-username" class="text-input" style="width:100%" type="text" placeholder="Nhập tên tài khoản...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu:</label>
+                    <input id="login-password" class="text-input" style="width:100%" type="password" placeholder="Nhập mật khẩu...">
+                </div>
+                <button class="gold-action-btn" style="width:100%;padding:10px;margin-top:6px" onclick="handleLogin()">🔑 Đăng Nhập Vào Chùa</button>
+            </div>
+
+            <div id="form-register" style="display:none">
+                <div class="form-group">
+                    <label class="form-label">Tên tài khoản đăng nhập:</label>
+                    <input id="reg-username" class="text-input" style="width:100%" type="text" placeholder="Ví dụ: phattu01...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mật khẩu bảo vệ:</label>
+                    <input id="reg-password" class="text-input" style="width:100%" type="password" placeholder="Mật khẩu...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Pháp Danh hiển thị trên đầu nhân vật:</label>
+                    <input id="reg-dharmaname" class="text-input" style="width:100%" type="text" placeholder="Ví dụ: Khương Kháu Kỉnh, Thích Tâm An...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Chọn màu áo tràng:</label>
+                    <div style="display:flex;gap:8px">
+                        <button type="button" class="dock-item" style="flex:1" onclick="changeRobe('#f59e0b')">Áo Vàng</button>
+                        <button type="button" class="dock-item" style="flex:1" onclick="changeRobe('#38bdf8')">Áo Lam</button>
+                        <button type="button" class="dock-item" style="flex:1" onclick="changeRobe('#a855f7')">Áo Tím</button>
+                    </div>
+                </div>
+                <button class="gold-action-btn" style="width:100%;padding:10px;margin-top:4px" onclick="handleRegister()">✨ Hoàn Tất Đăng Ký (+200 Sen & +100 Công Đức)</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 2: CÚNG DƯỜNG DONATE CÔNG ĐỨC ==================== -->
+    <div id="donate-modal" class="modal-backdrop">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('donate-modal')">✕</button>
+            <h3 style="color:#fde047;text-align:center;margin-bottom:8px">🙏 Cúng Dường Tam Bảo (Donate)</h3>
+            <p style="font-size:11.5px;color:#fde68a;text-align:center;margin-bottom:12px">Gieo duyên phước báu, nhận Hoa Sen & Công Đức vô lượng</p>
+            
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px">
+                <button class="dock-item" onclick="setDonateAmount(20000)">20.000đ (+50 🪷)</button>
+                <button class="dock-item" style="border-color:#fde047;color:#fde047" onclick="setDonateAmount(50000)">50.000đ (+150 🪷)</button>
+                <button class="dock-item" onclick="setDonateAmount(100000)">100.000đ (+350 🪷)</button>
+                <button class="dock-item" onclick="setDonateAmount(500000)">500.000đ (+2000 🪷)</button>
+            </div>
+            <input id="inp-donor" class="text-input" style="width:100%;margin-bottom:8px" type="text" placeholder="Tên thí chủ cầu an...">
+            <input id="inp-wish" class="text-input" style="width:100%;margin-bottom:12px" type="text" placeholder="Lời nguyện cầu gia đạo bình an, tài lộc...">
+            <button class="gold-action-btn" style="width:100%;padding:10px" onclick="confirmDonate()">✨ Xác Nhận Cúng Dường & Thỉnh Chuông</button>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 3: TẶNG HOA, SƯ TỬ, PHƯỢNG HOÀNG ==================== -->
+    <div id="gift-modal" class="modal-backdrop">
+        <div class="modal-box" style="max-width:420px">
+            <button class="close-btn" onclick="closeModal('gift-modal')">✕</button>
+            <h3 style="color:#fde047;text-align:center;margin-bottom:12px">🦁 Tặng Hoa, Sư Tử & Vật Phẩm Công Đức</h3>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
+                <button class="dock-item" style="padding:10px;text-align:center" onclick="sendGift('🌹 Hoa Hồng Cúng Phật', 5, '+20 Công Đức', '🌹')">
+                    <div style="font-size:24px">🌹</div>
+                    <div style="font-weight:bold;color:#fde047">Tặng Hoa Hồng</div>
+                    <div style="font-size:10px;color:#a7f3d0">5 Sen · +20 Công Đức</div>
+                </button>
+                <button class="dock-item" style="padding:10px;text-align:center" onclick="sendGift('🪷 Hoa Sen Vàng', 15, '+60 Công Đức', '🪷')">
+                    <div style="font-size:24px">🪷</div>
+                    <div style="font-weight:bold;color:#fde047">Tặng Hoa Sen</div>
+                    <div style="font-size:10px;color:#a7f3d0">15 Sen · +60 Công Đức</div>
+                </button>
+                <button class="dock-item" style="padding:10px;text-align:center;border-color:#fde047" onclick="sendGift('🦁 Sư Tử Vàng Hộ Pháp', 50, '+300 Công Đức', '🦁')">
+                    <div style="font-size:24px">🦁</div>
+                    <div style="font-weight:bold;color:#fde047">Tặng Sư Tử</div>
+                    <div style="font-size:10px;color:#fde047">50 Sen · +300 Công Đức</div>
+                </button>
+                <button class="dock-item" style="padding:10px;text-align:center;border-color:#ef4444" onclick="sendGift('🔥 Phượng Hoàng Cát Tường', 100, '+800 Công Đức', '🔥')">
+                    <div style="font-size:24px">🔥</div>
+                    <div style="font-weight:bold;color:#fef08a">Phượng Hoàng</div>
+                    <div style="font-size:10px;color:#fef08a">100 Sen · +800 Công Đức</div>
+                </button>
+            </div>
+            <div style="font-size:11px;color:#fde68a;text-align:center">Mỗi lần tặng Hoa hoặc Sư Tử sẽ kích hoạt mưa hoa sen và vinh danh toàn sân chùa!</div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 4: THẢ ĐÈN HOA ĐĂNG ==================== -->
+    <div id="lantern-modal" class="modal-backdrop">
+        <div class="modal-box">
+            <button class="close-btn" onclick="closeModal('lantern-modal')">✕</button>
+            <h3 style="color:#fde047;text-align:center;margin-bottom:10px">🏮 Thả Đèn Nguyện</h3>
+            <textarea id="inp-lantern" class="text-input" style="width:100%;height:70px;margin-bottom:12px" placeholder="Viết lời cầu nguyện gửi lên chư Phật..."></textarea>
+            <button class="gold-action-btn" style="width:100%;padding:10px" onclick="submitLantern()">Thả Đèn Xuống Hồ Liên Hoa</button>
+        </div>
+    </div>
+
+    <div id="floating-container"></div>
+
+    <!-- ==================== SCRIPT XỬ LÝ TẤT CẢ TRONG 1 ==================== -->
+    <script>
+        var user = {
+            username: "",
+            name: "Khương Kháu Kỉnh",
+            level: 7,
+            merit: 1250,
+            sen: 250,
+            robe: "#f59e0b",
+            isLoggedIn: false
+        };
+        var soundOn = true;
+        var donateAmount = 50000;
+
+        function getAccountsDB() {
+            try {
+                var raw = localStorage.getItem('chua_accounts_v5');
+                return raw ? JSON.parse(raw) : {};
+            } catch(e) { return {}; }
+        }
+        function saveAccountsDB(db) {
+            try { localStorage.setItem('chua_accounts_v5', JSON.stringify(db)); } catch(e) {}
+        }
+
+        try {
+            var currentSession = localStorage.getItem('chua_session_v5');
+            if (currentSession) user = JSON.parse(currentSession);
+        } catch(e) {}
+
+        function saveCurrentUserSession() {
+            try {
+                localStorage.setItem('chua_session_v5', JSON.stringify(user));
+                if (user.isLoggedIn && user.username) {
+                    var db = getAccountsDB();
+                    if (db[user.username]) {
+                        db[user.username].merit = user.merit;
+                        db[user.username].sen = user.sen;
+                        db[user.username].name = user.name;
+                        db[user.username].robe = user.robe;
+                        saveAccountsDB(db);
+                    }
+                }
+            } catch(e) {}
+        }
+
+        function refreshProfileUI() {
+            user.level = Math.max(1, Math.floor(user.merit / 150) + 1);
+            document.getElementById('ui-name').innerText = user.name;
+            document.getElementById('ui-avatar').innerText = user.name.charAt(0).toUpperCase();
+            document.getElementById('ui-level').innerText = user.level;
+            document.getElementById('ui-lvl-txt').innerText = user.level;
+            document.getElementById('ui-merit').innerText = user.merit.toLocaleString();
+            document.getElementById('ui-sen').innerText = user.sen;
+
+            if (user.isLoggedIn) {
+                document.getElementById('guest-banner').style.display = 'none';
+                document.getElementById('logged-banner').style.display = 'flex';
+                document.getElementById('logged-username').innerText = user.name;
+            } else {
+                document.getElementById('guest-banner').style.display = 'flex';
+                document.getElementById('logged-banner').style.display = 'none';
+            }
+        }
+        refreshProfileUI();
+
+        var guestSeconds = 300;
+        setInterval(function() {
+            if (user.isLoggedIn) return;
+            if (guestSeconds > 0) guestSeconds--;
+            var m = Math.floor(guestSeconds / 60);
+            var s = guestSeconds % 60;
+            var el = document.getElementById('guest-timer');
+            if (el) el.innerText = m + ':' + (s < 10 ? '0' + s : s);
+        }, 1000);
+
+        function openAuthModal(tab) {
+            document.getElementById('auth-status-msg').innerText = '';
+            switchAuthTab(tab || 'login');
+            document.getElementById('auth-modal').classList.add('open');
+        }
+        function switchAuthTab(tab) {
+            var isLogin = (tab === 'login');
+            document.getElementById('form-login').style.display = isLogin ? 'block' : 'none';
+            document.getElementById('form-register').style.display = isLogin ? 'none' : 'block';
+            document.getElementById('tab-btn-login').classList.toggle('active', isLogin);
+            document.getElementById('tab-btn-register').classList.toggle('active', !isLogin);
+        }
+        function changeRobe(colorStr) { user.robe = colorStr; }
+
+        function handleRegister() {
+            var uname = document.getElementById('reg-username').value.trim().toLowerCase();
+            var pass = document.getElementById('reg-password').value.trim();
+            var dname = document.getElementById('reg-dharmaname').value.trim();
+            var msg = document.getElementById('auth-status-msg');
+
+            if (!uname || !pass) {
+                msg.style.color = '#f87171';
+                msg.innerText = '⚠️ Vui lòng nhập Tên tài khoản và Mật khẩu!';
+                return;
+            }
+            var db = getAccountsDB();
+            if (db[uname]) {
+                msg.style.color = '#f87171';
+                msg.innerText = '⚠️ Tài khoản đã tồn tại, hãy chọn tên khác!';
+                return;
+            }
+
+            user.username = uname;
+            user.name = dname || uname;
+            user.merit += 100;
+            user.sen += 200;
+            user.isLoggedIn = true;
+
+            db[uname] = { username: uname, password: pass, name: user.name, merit: user.merit, sen: user.sen, robe: user.robe };
+            saveAccountsDB(db);
+            saveCurrentUserSession();
+            refreshProfileUI();
+            closeModal('auth-modal');
+            playBell();
+            showFloatText('🎉 Đăng ký thành công! +100 Công Đức & +200 Sen', '#86efac');
+        }
+
+        function handleLogin() {
+            var uname = document.getElementById('login-username').value.trim().toLowerCase();
+            var pass = document.getElementById('login-password').value.trim();
+            var msg = document.getElementById('auth-status-msg');
+
+            var db = getAccountsDB();
+            if (!db[uname] || db[uname].password !== pass) {
+                msg.style.color = '#f87171';
+                msg.innerText = '❌ Sai tài khoản hoặc mật khẩu!';
+                return;
+            }
+
+            var acc = db[uname];
+            user.username = acc.username;
+            user.name = acc.name;
+            user.merit = acc.merit || 100;
+            user.sen = acc.sen || 250;
+            user.robe = acc.robe || '#f59e0b';
+            user.isLoggedIn = true;
+
+            saveCurrentUserSession();
+            refreshProfileUI();
+            closeModal('auth-modal');
+            playBell();
+            showFloatText('🙏 Chào mừng ' + user.name + ' quay trở lại chùa!', '#fde047');
+        }
+
+        function logoutUser() {
+            user = { username: "", name: "Khách Thập Phương", level: 1, merit: 10, sen: 100, robe: "#f59e0b", isLoggedIn: false };
+            saveCurrentUserSession();
+            refreshProfileUI();
+            showFloatText('Đã đăng xuất tài khoản', '#fca5a5');
+        }
+
+        // Âm thanh Web Audio API
+        var AudioCtx = window.AudioContext || window.webkitAudioContext;
+        var actx = null;
+        function ensureAudio() {
+            if (!actx && AudioCtx) actx = new AudioCtx();
+            if (actx && actx.state === 'suspended') actx.resume();
+        }
+        function playMo() {
+            if (!soundOn) return;
+            ensureAudio();
+            if (!actx) return;
+            var osc = actx.createOscillator();
+            var g = actx.createGain();
+            osc.frequency.setValueAtTime(520, actx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(150, actx.currentTime + 0.11);
+            g.gain.setValueAtTime(0.85, actx.currentTime);
+            g.gain.exponentialRampToValueAtTime(0.001, actx.currentTime + 0.13);
+            osc.connect(g); g.connect(actx.destination);
+            osc.start(); osc.stop(actx.currentTime + 0.14);
+        }
+        function playBell() {
+            if (!soundOn) return;
+            ensureAudio();
+            if (!actx) return;
+            [216, 432, 540].forEach(function(f, i) {
+                var osc = actx.createOscillator();
+                var g = actx.createGain();
+                osc.frequency.setValueAtTime(f, actx.currentTime);
+                var dur = 2.4 + i * 0.4;
+                g.gain.setValueAtTime(0.25 / (i + 1), actx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + dur);
+                osc.connect(g); g.connect(actx.destination);
+                osc.start(); osc.stop(actx.currentTime + dur);
+            });
+        }
+        function toggleAudio() {
+            soundOn = !soundOn;
+            document.getElementById('btn-sound').innerText = soundOn ? '🔊' : '🔇';
+        }
+
+        function showFloatText(txt, color) {
+            var box = document.getElementById('floating-container');
+            var el = document.createElement('div');
+            el.className = 'float-text';
+            el.innerText = txt;
+            el.style.color = color || '#fef08a';
+            el.style.left = (window.innerWidth / 2 + (Math.random() * 90 - 45)) + 'px';
+            el.style.top = (window.innerHeight * 0.55) + 'px';
+            el.style.transform = 'translate(-50%, -50%) scale(0.9)';
+            box.appendChild(el);
+            setTimeout(function() {
+                el.style.transform = 'translate(-50%, -120px) scale(1.15)';
+                el.style.opacity = '0';
+            }, 30);
+            setTimeout(function() { el.remove(); }, 1050);
+        }
+
+        function switchDeity(type) {
+            document.getElementById('svg-adida').style.display = (type === 'adida') ? 'block' : 'none';
+            document.getElementById('svg-quanam').style.display = (type === 'quanam') ? 'block' : 'none';
+            document.getElementById('svg-thichca').style.display = (type === 'thichca') ? 'block' : 'none';
+
+            ['adida', 'quanam', 'thichca'].forEach(function(id) {
+                document.getElementById('btn-' + id).classList.remove('active');
+            });
+            document.getElementById('btn-' + type).classList.add('active');
+
+            var bg = document.getElementById('celestial-bg');
+            var title = document.getElementById('shrine-title');
+            if (type === 'adida') {
+                title.innerText = 'NAM MÔ A DI ĐÀ PHẬT';
+                bg.style.background = 'radial-gradient(circle at 50% 22%, #fffbeb 0%, #fbbf24 22%, #b45309 50%, #451a03 80%, #1c0a02 100%)';
+            } else if (type === 'quanam') {
+                title.innerText = 'NAM MÔ QUÁN THẾ ÂM BỒ TÁT';
+                bg.style.background = 'radial-gradient(circle at 50% 22%, #ecfdf5 0%, #34d399 20%, #065f46 50%, #022c22 80%, #090d16 100%)';
+            } else {
+                title.innerText = 'NAM MÔ BỔN SƯ THÍCH CA MÂU NI PHẬT';
+                bg.style.background = 'radial-gradient(circle at 50% 22%, #fefce8 0%, #f59e0b 24%, #78350f 52%, #271206 80%, #0c0603 100%)';
+            }
+            playBell();
+        }
+
+        // ==================== ĐỘNG CƠ VẼ SÂN CHÙA 2.5D HTML5 CANVAS (KHÔNG BAO GIỜ LỖI ĐEN MÀN HÌNH) ====================
+        var canvas = document.getElementById('temple-canvas');
+        var ctx = canvas.getContext('2d');
+        var W = window.innerWidth;
+        var H = window.innerHeight;
+
+        function resizeCanvas() {
+            W = window.innerWidth;
+            H = window.innerHeight;
+            canvas.width = W;
+            canvas.height = H;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        var playerPos = { x: 0, y: 0.72 };
+        var moveVec = { x: 0, y: 0 };
+        var keys = {};
+        var isBowing = false;
+        var blessingTimer = 0;
+        var fallingPetals = [];
+
+        var npcs = [
+            { name: "Ngọc", level: 1, x: -0.22, y: 0.62, robe: "#10b981" },
+            { name: "An Hạnh 61", level: 3, x: 0.18, y: 0.60, robe: "#60a5fa" },
+            { name: "Hoàng Châu", level: 5, x: -0.05, y: 0.54, robe: "#f472b6" }
+        ];
+
+        window.addEventListener('keydown', function(e) {
+            if (document.querySelector('.modal-backdrop.open')) return;
+            keys[e.key.toLowerCase()] = true;
+            if (e.code === 'Space') doAction('mo');
+        });
+        window.addEventListener('keyup', function(e) { keys[e.key.toLowerCase()] = false; });
+
+        var joyBase = document.getElementById('joy-base');
+        var joyStick = document.getElementById('joy-stick');
+        var joyActive = false;
+        var joyCenter = { x: 0, y: 0 };
+
+        joyBase.addEventListener('touchstart', function(e) {
+            joyActive = true;
+            var r = joyBase.getBoundingClientRect();
+            joyCenter = { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+            handleTouch(e.touches[0]);
+        }, { passive: false });
+        window.addEventListener('touchmove', function(e) {
+            if (joyActive) handleTouch(e.touches[0]);
+        }, { passive: false });
+        window.addEventListener('touchend', function() {
+            joyActive = false;
+            moveVec.x = 0; moveVec.y = 0;
+            joyStick.style.transform = 'translate(0px,0px)';
+        });
+
+        function handleTouch(t) {
+            var dx = t.clientX - joyCenter.x;
+            var dy = t.clientY - joyCenter.y;
+            var maxR = 28;
+            var dist = Math.min(Math.hypot(dx, dy), maxR);
+            var ang = Math.atan2(dy, dx);
+            var sx = Math.cos(ang) * dist;
+            var sy = Math.sin(ang) * dist;
+            joyStick.style.transform = 'translate(' + sx + 'px,' + sy + 'px)';
+            moveVec.x = sx / maxR;
+            moveVec.y = sy / maxR;
+        }
+
+        function spawnLotusShower(count, iconChar) {
+            for (var i = 0; i < count; i++) {
+                fallingPetals.push({
+                    x: Math.random() * W,
+                    y: -20 - Math.random() * 200,
+                    vy: 1.8 + Math.random() * 2.5,
+                    vx: (Math.random() - 0.5) * 1.5,
+                    icon: iconChar || '🪷',
+                    size: 16 + Math.random() * 12
+                });
+            }
+        }
+
+        function drawChibiAvatar(cx, cy, scale, robeColor, nameText, lvl, hasHalo, time) {
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.scale(scale, scale);
+
+            // Bóng đổ dưới chân
+            ctx.fillStyle = "rgba(0,0,0,0.45)";
+            ctx.beginPath();
+            ctx.ellipse(0, 36, 26, 9, 0, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Vòng Hào Quang Hoàng Kim sau lưng nhân vật chính
+            if (hasHalo) {
+                ctx.save();
+                ctx.rotate(time * 0.8);
+                var grad = ctx.createRadialGradient(0, -10, 10, 0, -10, 48);
+                grad.addColorStop(0, "rgba(254, 240, 138, 0.95)");
+                grad.addColorStop(0.7, "rgba(245, 158, 11, 0.55)");
+                grad.addColorStop(1, "rgba(245, 158, 11, 0)");
+                ctx.fillStyle = grad;
+                ctx.beginPath();
+                ctx.arc(0, -10, 48, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.strokeStyle = "#fef08a";
+                ctx.lineWidth = 2.5;
+                ctx.beginPath();
+                ctx.arc(0, -10, 38, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            // Thân Áo Tràng Cư Sĩ
+            ctx.fillStyle = robeColor;
+            ctx.strokeStyle = "#fde047";
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(-18, -8);
+            ctx.lineTo(18, -8);
+            ctx.lineTo(26, 34);
+            ctx.lineTo(-26, 34);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Đầu nhân vật
+            ctx.fillStyle = "#ffe0c4";
+            ctx.beginPath();
+            ctx.arc(0, -24, 21, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Tóc búi & Trâm cài
+            ctx.fillStyle = "#3b2313";
+            ctx.beginPath();
+            ctx.arc(0, -25, 20, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = "#26150a";
+            ctx.beginPath();
+            ctx.arc(0, -22, 11, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Trâm cài tóc bạc
+            ctx.strokeStyle = "#e2e8f0";
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(-16, -24);
+            ctx.lineTo(18, -19);
+            ctx.stroke();
+
+            // Bảng Tên Pháp Danh trên đỉnh đầu
+            ctx.font = "bold 12px 'Segoe UI', sans-serif";
+            var textW = ctx.measureText(nameText).width + 34;
+            ctx.fillStyle = "rgba(15, 8, 4, 0.85)";
+            ctx.strokeStyle = "#fbbf24";
+            ctx.lineWidth = 1.2;
+            var bx = -textW / 2;
+            var by = -68;
+            ctx.beginPath();
+            ctx.roundRect ? ctx.roundRect(bx, by, textW, 22, 11) : ctx.rect(bx, by, textW, 22);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = "#fde047";
+            ctx.textAlign = "center";
+            ctx.fillText(lvl + " · " + nameText, 0, -53);
+
+            ctx.restore();
+        }
+
+        function renderLoop(ts) {
+            var time = (ts || 0) * 0.001;
+            ctx.clearRect(0, 0, W, H);
+
+            var horizonY = H * 0.44;
+
+            // 1. Vẽ mặt sân chùa cổ kính phía dưới chân trời
+            var groundGrad = ctx.createLinearGradient(0, horizonY, 0, H);
+            groundGrad.addColorStop(0, "rgba(68, 32, 12, 0.88)");
+            groundGrad.addColorStop(1, "rgba(28, 14, 6, 0.98)");
+            ctx.fillStyle = groundGrad;
+            ctx.fillRect(0, horizonY, W, H - horizonY);
+
+            // 2. Vẽ Hồ Sen Ngọc Bích ở giữa sân chùa
+            ctx.save();
+            ctx.fillStyle = "#0d4740";
+            ctx.strokeStyle = "#d97706";
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.ellipse(W * 0.5, horizonY + 34, Math.min(W * 0.36, 260), 34, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.stroke();
+
+            // Hoa sen nổi trên hồ
+            for (var i = -3; i <= 3; i++) {
+                var lx = W * 0.5 + i * 52;
+                var ly = horizonY + 32 + Math.sin(time * 2 + i) * 3;
+                ctx.font = "16px sans-serif";
+                ctx.fillText("🪷", lx - 8, ly);
+            }
+            ctx.restore();
+
+            // 3. Vẽ Con Đường Lát Đá & Thảm Đỏ Dẫn Lên Chánh Điện (Phối cảnh 3D)
+            ctx.save();
+            ctx.fillStyle = "#443830";
+            ctx.beginPath();
+            ctx.moveTo(W * 0.5 - 70, horizonY + 55);
+            ctx.lineTo(W * 0.5 + 70, horizonY + 55);
+            ctx.lineTo(W * 0.5 + Math.min(W * 0.42, 340), H);
+            ctx.lineTo(W * 0.5 - Math.min(W * 0.42, 340), H);
+            ctx.closePath();
+            ctx.fill();
+
+            // Vân gạch đá ngang trên đường
+            ctx.strokeStyle = "rgba(251, 191, 36, 0.22)";
+            ctx.lineWidth = 1.5;
+            for (var r = 1; r <= 7; r++) {
+                var ry = horizonY + 55 + Math.pow(r / 7, 1.5) * (H - horizonY - 55);
+                var halfW = 70 + (r / 7) * (Math.min(W * 0.42, 340) - 70);
+                ctx.beginPath();
+                ctx.moveTo(W * 0.5 - halfW, ry);
+                ctx.lineTo(W * 0.5 + halfW, ry);
+                ctx.stroke();
+            }
+            ctx.restore();
+
+            // 4. Vẽ Hàng Lồng Đèn Đỏ Phát Sáng 2 Bên Đường
+            [-1, 1].forEach(function(side) {
+                for (var idx = 1; idx <= 3; idx++) {
+                    var prog = idx / 3.4;
+                    var py = horizonY + 55 + prog * (H - horizonY - 90);
+                    var spread = 85 + prog * Math.min(W * 0.34, 240);
+                    var px = W * 0.5 + side * spread;
+                    var sc = 0.65 + prog * 0.5;
+
+                    // Cột gỗ
+                    ctx.fillStyle = "#451a03";
+                    ctx.fillRect(px - 3 * sc, py - 75 * sc, 6 * sc, 75 * sc);
+
+                    // Lồng đèn đỏ rực
+                    ctx.fillStyle = "#ef4444";
+                    ctx.beginPath();
+                    ctx.arc(px, py - 75 * sc, 14 * sc, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.strokeStyle = "#fde047";
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+                }
+            });
+
+            // 5. Cập nhật vị trí người chơi
+            var vx = moveVec.x;
+            var vy = moveVec.y;
+            if (keys['w'] || keys['arrowup']) vy = -1;
+            if (keys['s'] || keys['arrowdown']) vy = 1;
+            if (keys['a'] || keys['arrowleft']) vx = -1;
+            if (keys['d'] || keys['arrowright']) vx = 1;
+
+            if (vx !== 0 || vy !== 0) {
+                playerPos.x = Math.max(-0.35, Math.min(0.35, playerPos.x + vx * 0.0045));
+                playerPos.y = Math.max(0.56, Math.min(0.86, playerPos.y + vy * 0.004));
+            }
+
+            // 6. Vẽ Đồng Tu NPC
+            npcs.forEach(function(n, idx) {
+                var nx = W * 0.5 + n.x * Math.min(W, 800);
+                var ny = H * n.y + Math.sin(time * 2 + idx) * 2;
+                drawChibiAvatar(nx, ny, 0.78, n.robe, n.name, n.level, false, time);
+            });
+
+            // 7. Vẽ Nhân Vật Chính Của Bạn
+            var px = W * 0.5 + playerPos.x * Math.min(W, 800);
+            var py = H * playerPos.y + (isBowing ? 8 : 0);
+
+            if (blessingTimer > 0) {
+                blessingTimer -= 0.02;
+                var beamGrad = ctx.createLinearGradient(px, horizonY - 120, px, py + 30);
+                beamGrad.addColorStop(0, "rgba(254, 240, 138, 0.75)");
+                beamGrad.addColorStop(1, "rgba(254, 240, 138, 0)");
+                ctx.fillStyle = beamGrad;
+                ctx.beginPath();
+                ctx.moveTo(px - 20, horizonY - 120);
+                ctx.lineTo(px + 20, horizonY - 120);
+                ctx.lineTo(px + 75, py + 35);
+                ctx.lineTo(px - 75, py + 35);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            drawChibiAvatar(px, py, 1.05, user.robe || "#f59e0b", user.name, user.level, true, time);
+
+            // 8. Vẽ Mưa Hoa Sen & Quà Tặng Rơi
+            for (var p = fallingPetals.length - 1; p >= 0; p--) {
+                var item = fallingPetals[p];
+                item.y += item.vy;
+                item.x += item.vx;
+                ctx.font = item.size + "px sans-serif";
+                ctx.fillText(item.icon, item.x, item.y);
+                if (item.y > H + 30) fallingPetals.splice(p, 1);
+            }
+
+            requestAnimationFrame(renderLoop);
+        }
+        requestAnimationFrame(renderLoop);
+
+        // ==================== TÁC VỤ LỄ PHẬT, CÚNG DƯỜNG, TẶNG SƯ TỬ ====================
+        function doAction(act) {
+            ensureAudio();
+            if (act === 'mo') {
+                playMo();
+                user.merit += 1;
+                saveCurrentUserSession(); refreshProfileUI();
+                showFloatText('🪵 +1 Công Đức', '#fef08a');
+            } else if (act === 'lay') {
+                playMo();
+                isBowing = true;
+                blessingTimer = 1.0;
+                setTimeout(function() { isBowing = false; }, 900);
+                user.merit += 5;
+                saveCurrentUserSession(); refreshProfileUI();
+                showFloatText('🙇 Nhất Tâm Lạy Phật (+5 Công Đức)', '#86efac');
+            } else if (act === 'kinh') {
+                playBell();
+                blessingTimer = 1.0;
+                user.merit += 5;
+                saveCurrentUserSession(); refreshProfileUI();
+                showFloatText('📖 Tụng Kinh Cầu An (+5 Công Đức)', '#93c5fd');
+            } else if (act === 'xam') {
+                var list = [
+                    "Quẻ Thượng Thượng Cát: Chư Phật gia hộ, gia đạo bình an, tài lộc viên mãn.",
+                    "Quẻ Đại Cát: Tâm sáng trí thông, công việc thuận buồm xuôi gió.",
+                    "Quẻ An Lạc: Giữ tâm thanh tịnh, phước lộc tự nhiên hội tụ."
+                ];
+                alert("🎋 QUẺ XĂM LINH ỨNG:\n\n" + list[Math.floor(Math.random() * list.length)]);
+            }
+        }
+
+        function openModal(id) { document.getElementById(id).classList.add('open'); }
+        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+        function toggleMobPanel(id) { document.getElementById(id).classList.toggle('show-mob'); }
+
+        function setDonateAmount(a) { donateAmount = a; }
+        function confirmDonate() {
+            var dName = document.getElementById('inp-donor').value.trim() || user.name;
+            var dWish = document.getElementById('inp-wish').value.trim() || "Gia đạo bình an, vạn sự cát tường";
+            closeModal('donate-modal');
+            playBell();
+            blessingTimer = 1.5;
+            spawnLotusShower(25, '🪷');
+
+            var bonusSen = Math.floor(donateAmount / 400);
+            var bonusMerit = Math.floor(donateAmount / 100);
+            user.sen += bonusSen;
+            user.merit += bonusMerit;
+            saveCurrentUserSession();
+            refreshProfileUI();
+
+            document.getElementById('marquee-box').innerHTML = '🌟 Công đức vô lượng: Thí chủ <b style="color:#fde047">' + dName + '</b> vừa cúng dường ' + donateAmount.toLocaleString() + 'đ — Cầu nguyện: ' + dWish + '!';
+            showFloatText('🙏 Cúng Dường Viên Mãn +' + bonusMerit + ' Công Đức', '#fde047');
+        }
+
+        // Hiệu ứng Tặng Hoa, Sư Tử, Phượng Hoàng
+        var bannerTimeout = null;
+        function sendGift(giftName, senCost, meritBonus, iconChar) {
+            if (user.sen < senCost) {
+                alert('⚠️ Bạn cần ' + senCost + ' Sen để tặng vật phẩm này! Hãy bấm nút "Cúng Dường" để nhận thêm Sen.');
+                return;
+            }
+            user.sen -= senCost;
+            user.merit += senCost * 4;
+            saveCurrentUserSession();
+            refreshProfileUI();
+            closeModal('gift-modal');
+            playBell();
+            blessingTimer = 1.8;
+            spawnLotusShower(30, iconChar || '🪷');
+
+            // Hiển thị bảng vinh danh Sư Tử / Quà tặng giữa màn hình
+            var banner = document.getElementById('big-gift-banner');
+            document.getElementById('big-gift-icon').innerText = iconChar || '🦁';
+            document.getElementById('big-gift-title').innerText = giftName;
+            document.getElementById('big-gift-sub').innerText = user.name + ' vừa dâng tặng (' + meritBonus + ')';
+            banner.classList.add('show');
+            if (bannerTimeout) clearTimeout(bannerTimeout);
+            bannerTimeout = setTimeout(function() {
+                banner.classList.remove('show');
+            }, 3200);
+
+            document.getElementById('marquee-box').innerHTML = '🦁 Đại Hỷ: Phật tử <b style="color:#fde047">' + user.name + '</b> vừa dâng tặng <b>' + giftName + '</b> (' + meritBonus + ')!';
+            showFloatText(iconChar + ' ' + giftName + ' ' + meritBonus, '#fde047');
+        }
+
+        function submitLantern() {
+            var txt = document.getElementById('inp-lantern').value.trim();
+            if (!txt) return;
+            var box = document.getElementById('prayer-list');
+            var card = document.createElement('div');
+            card.className = 'prayer-card';
+            card.innerHTML = '<div style="font-weight:700;color:#fff">“' + txt + '”</div><div style="font-size:10px;color:#fbbf24;margin-top:3px;display:flex;justify-content:space-between"><span>' + user.name + ' · vừa xong</span><span>❤️ 1</span></div>';
+            box.prepend(card);
+            document.getElementById('inp-lantern').value = '';
+            closeModal('lantern-modal');
+            blessingTimer = 1.2;
+            spawnLotusShower(12, '🏮');
+            showFloatText('🏮 Đã thả hoa đăng lên hồ sen', '#fdba74');
+        }
+
+        function sendChat() {
+            var inp = document.getElementById('chat-inp');
+            var m = inp.value.trim();
+            if (!m) return;
+            var list = document.getElementById('chat-list');
+            var row = document.createElement('div');
+            row.innerHTML = '<b style="color:#fde047">' + user.name + ':</b> ' + m;
+            list.appendChild(row);
+            list.scrollTop = list.scrollHeight;
+            inp.value = '';
+        }
+    </script>
+</body>
+</html>
