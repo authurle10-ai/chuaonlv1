@@ -134,7 +134,7 @@
             border: 1px solid #fff;
         }
 
-        /* 2. CANVAS SÂN CHÙA 2.5D (KHÔNG CẦN WEBGL) */
+        /* 2. CANVAS SÂN CHÙA 2.5D */
         #temple-canvas {
             position: absolute;
             top: 0; left: 0;
@@ -142,20 +142,20 @@
             z-index: 2;
         }
 
-        /* 3. HIỆU ỨNG SƯ TỬ / QUÀ TẶNG KHỦNG GIỮA MÀN HÌNH */
+        /* 3. BANNER HIỆU ỨNG SƯ TỬ / QUÀ KHỦNG GIỮA MÀN HÌNH */
         #big-gift-banner {
             position: fixed;
             left: 50%;
             top: 42%;
             transform: translate(-50%, -50%) scale(0);
             z-index: 45;
-            background: radial-gradient(circle, rgba(254,240,138,0.95) 0%, rgba(217,119,6,0.95) 70%, rgba(120,53,15,0.98) 100%);
+            background: radial-gradient(circle, rgba(254,240,138,0.98) 0%, rgba(217,119,6,0.96) 70%, rgba(120,53,15,0.98) 100%);
             border: 3px solid #ffffff;
             border-radius: 24px;
-            padding: 16px 28px;
+            padding: 16px 30px;
             text-align: center;
             color: #271206;
-            box-shadow: 0 0 50px rgba(251,191,36,0.95);
+            box-shadow: 0 0 60px rgba(251,191,36,0.95);
             pointer-events: none;
             transition: transform 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
@@ -291,6 +291,17 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(220, 38, 38, 0.6);
         }
+        .tiktok-shop-btn {
+            background: linear-gradient(90deg, #111827, #1f2937);
+            color: #fff;
+            border: 1.5px solid #fe2c55;
+            padding: 6px 12px;
+            border-radius: 99px;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(254, 44, 85, 0.45);
+        }
         .icon-circle-btn {
             width: 34px;
             height: 34px;
@@ -344,11 +355,31 @@
             border-radius: 99px;
             font-size: 11.5px;
             text-align: center;
-            max-width: 560px;
+            max-width: 580px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             color: #fef3c7;
+        }
+
+        /* Thanh nhắc phím tắt Streamer Live */
+        #hotkey-bar {
+            margin: 4px auto 0;
+            background: rgba(0, 0, 0, 0.72);
+            border: 1px dashed rgba(251, 191, 36, 0.6);
+            padding: 3px 12px;
+            border-radius: 99px;
+            font-size: 10.5px;
+            color: #fde047;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: fit-content;
+        }
+        @media (max-width: 768px) {
+            #hotkey-bar { display: none !important; }
         }
 
         /* Khung Chat & Đèn Nguyện */
@@ -371,8 +402,8 @@
         }
         #lantern-panel {
             right: 12px;
-            top: 125px;
-            max-height: 250px;
+            top: 135px;
+            max-height: 245px;
         }
         .panel-header {
             font-size: 12px;
@@ -551,7 +582,7 @@
         .modal-backdrop {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.82);
+            background: rgba(0, 0, 0, 0.84);
             z-index: 50;
             display: none;
             align-items: center;
@@ -564,7 +595,9 @@
             border: 2px solid #fbbf24;
             border-radius: 16px;
             width: 100%;
-            max-width: 400px;
+            max-width: 410px;
+            max-height: 92vh;
+            overflow-y: auto;
             padding: 18px;
             position: relative;
             box-shadow: 0 12px 35px rgba(0,0,0,0.95);
@@ -609,6 +642,31 @@
             color: #fde68a;
             margin-bottom: 4px;
             font-weight: 700;
+        }
+
+        /* Thẻ vật phẩm TikTok Shop */
+        .shop-card {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(251, 191, 36, 0.45);
+            border-radius: 12px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        .shop-buy-btn {
+            background: linear-gradient(90deg, #fe2c55, #e11d48);
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 11.5px;
+            font-weight: 800;
+            text-decoration: none;
+            white-space: nowrap;
+            cursor: pointer;
         }
 
         #floating-container {
@@ -708,7 +766,7 @@
 
     <!-- BANNER HIỆU ỨNG SƯ TỬ / QUÀ KHỦNG -->
     <div id="big-gift-banner">
-        <div id="big-gift-icon" style="font-size:54px">🦁</div>
+        <div id="big-gift-icon" style="font-size:56px">🦁</div>
         <div id="big-gift-title" style="font-size:18px;font-weight:900;text-transform:uppercase">SƯ TỬ VÀNG HỘ PHÁP</div>
         <div id="big-gift-sub" style="font-size:13px;font-weight:700;margin-top:4px">Thí chủ vừa cúng dường quà lớn!</div>
     </div>
@@ -719,12 +777,12 @@
             <div class="top-bar">
                 <div class="profile-pill" onclick="openAuthModal('login')">
                     <div class="avatar-circle">
-                        <span id="ui-avatar">T</span>
-                        <span id="ui-level" class="lvl-badge">1</span>
+                        <span id="ui-avatar">K</span>
+                        <span id="ui-level" class="lvl-badge">7</span>
                     </div>
                     <div>
-                        <div style="font-size:13px;font-weight:800;color:#fef3c7" id="ui-name">Thích Chan</div>
-                        <div style="font-size:10.5px;color:#fde047;font-weight:700">Cấp <span id="ui-lvl-txt">1</span> · <span id="ui-merit">10</span> công đức</div>
+                        <div style="font-size:13px;font-weight:800;color:#fef3c7" id="ui-name">Khương Kháu Kỉnh</div>
+                        <div style="font-size:10.5px;color:#fde047;font-weight:700">Cấp <span id="ui-lvl-txt">7</span> · <span id="ui-merit">1.250</span> công đức</div>
                     </div>
                 </div>
 
@@ -740,7 +798,8 @@
 
                 <div class="top-right-group">
                     <button class="donate-btn" onclick="openModal('donate-modal')">🙏 Cúng Dường</button>
-                    <button class="gift-top-btn" onclick="openModal('gift-modal')">🦁 Tặng Hoa / Sư Tử</button>
+                    <button class="gift-top-btn" onclick="openModal('gift-modal')">🦁 Tặng Sư Tử</button>
+                    <button class="tiktok-shop-btn" onclick="openModal('shop-modal')">🛒 Vật Phẩm TikTok</button>
                     <div class="sen-pill">🪷 <span id="ui-sen">250</span></div>
                     <button class="icon-circle-btn" onclick="openAuthModal('login')" title="Tài khoản">👤</button>
                     <button id="btn-sound" class="icon-circle-btn" onclick="toggleAudio()">🔊</button>
@@ -756,7 +815,19 @@
             </div>
 
             <div id="marquee-box" class="marquee-bar">
-                🙏 Nam Mô A Di Đà Phật — Chào mừng quý Phật tử thập phương về Chùa Vô Lượng lễ Phật, tích công đức!
+                🙏 Nam Mô A Di Đà Phật — Chào mừng quý Phật tử thập phương về Chùa Vô Lượng lễ Phật, thỉnh vật phẩm bình an!
+            </div>
+
+            <!-- Thanh Nhắc Phím Tắt Streamer (Bấm phím H để ẩn/hiện khi quay Live) -->
+            <div id="hotkey-bar">
+                <span>⚡ <b>Phím tắt Live:</b></span>
+                <span>[Space] Gõ mõ</span> ·
+                <span>[1] 🌹 Hoa Hồng</span> ·
+                <span>[2] 🪷 Hoa Sen</span> ·
+                <span>[3] 🦁 Sư Tử</span> ·
+                <span>[4] 🔥 Phượng Hoàng</span> ·
+                <span>[5] ✨ Phóng Quang</span> ·
+                <span>[H] Ẩn thanh này</span>
             </div>
         </div>
 
@@ -773,7 +844,7 @@
             </div>
             <div id="chat-list" class="scroll-list">
                 <div><b style="color:#fde047">Thích Vô Trí:</b> Nam Mô A Di Đà Phật 🙏</div>
-                <div><b style="color:#6ee7b7">Hoàng Châu:</b> Vừa thả đèn hoa đăng cầu bình an cho gia đình!</div>
+                <div><b style="color:#6ee7b7">Hoàng Châu:</b> Vừa thỉnh vòng trầm hương trong giỏ hàng TikTok!</div>
                 <div><b style="color:#fdba74">An Hạnh 61:</b> Cúng dường 1 Sư Tử Vàng chúc chùa hưng thịnh 🦁</div>
             </div>
             <div class="chat-input-row">
@@ -820,10 +891,10 @@
                 <span>GÕ MÕ</span>
             </button>
             <div class="grid-6-btns">
-                <button class="small-wood-btn" onclick="sendGift('🪷 Hoa Sen Vàng', 10, '+30 Công Đức', '🪷')">
+                <button class="small-wood-btn" onclick="sendGift('🪷 Hoa Sen Vàng', 10, '+30 Công Đức', '🪷', false)">
                     <span style="font-size:15px">🪷</span><span>Tặng Hoa</span>
                 </button>
-                <button class="small-wood-btn" onclick="sendGift('🦁 Sư Tử Hộ Pháp', 50, '+200 Công Đức', '🦁')">
+                <button class="small-wood-btn" onclick="sendGift('🦁 Sư Tử Hộ Pháp', 50, '+200 Công Đức', '🦁', false)">
                     <span style="font-size:15px">🦁</span><span>Tặng Sư Tử</span>
                 </button>
                 <button class="small-wood-btn" onclick="openModal('donate-modal')">
@@ -832,8 +903,8 @@
                 <button class="small-wood-btn" onclick="doAction('lay')">
                     <span style="font-size:15px">🙇</span><span>Lạy Phật</span>
                 </button>
-                <button class="small-wood-btn" onclick="doAction('kinh')">
-                    <span style="font-size:15px">📖</span><span>Tụng Kinh</span>
+                <button class="small-wood-btn" onclick="openModal('shop-modal')">
+                    <span style="font-size:15px">📿</span><span>Vật Phẩm</span>
                 </button>
                 <button class="small-wood-btn" onclick="doAction('xam')">
                     <span style="font-size:15px">🎋</span><span>Xin Xăm</span>
@@ -842,10 +913,10 @@
         </div>
 
         <nav class="bottom-dock pointer-auto">
-            <button class="dock-item" onclick="openAuthModal('login')" style="border-color:#fde047;color:#fde047">👤 Đăng Nhập / Đăng Ký</button>
-            <button class="dock-item" onclick="openModal('donate-modal')">🙏 Cúng Dường Donate</button>
+            <button class="dock-item" onclick="openAuthModal('login')" style="border-color:#fde047;color:#fde047">👤 Tài Khoản</button>
+            <button class="dock-item" onclick="openModal('donate-modal')">🙏 Cúng Dường QR</button>
             <button class="dock-item" onclick="openModal('gift-modal')">🦁 Tặng Hoa / Sư Tử</button>
-            <button class="dock-item" onclick="doAction('xam')">🎋 Xin Xăm</button>
+            <button class="dock-item" onclick="openModal('shop-modal')" style="border-color:#fe2c55;color:#fecdd3">🛒 Vật Phẩm TikTok</button>
             <button class="dock-item" onclick="openModal('lantern-modal')">🏮 Thả Hoa Đăng</button>
         </nav>
     </div>
@@ -901,22 +972,42 @@
         </div>
     </div>
 
-    <!-- ==================== MODAL 2: CÚNG DƯỜNG DONATE CÔNG ĐỨC ==================== -->
+    <!-- ==================== MODAL 2: CÚNG DƯỜNG VIETQR TỰ ĐỘNG & TIKTOK SHOP ==================== -->
     <div id="donate-modal" class="modal-backdrop">
         <div class="modal-box">
             <button class="close-btn" onclick="closeModal('donate-modal')">✕</button>
-            <h3 style="color:#fde047;text-align:center;margin-bottom:8px">🙏 Cúng Dường Tam Bảo (Donate)</h3>
-            <p style="font-size:11.5px;color:#fde68a;text-align:center;margin-bottom:12px">Gieo duyên phước báu, nhận Hoa Sen & Công Đức vô lượng</p>
+            <h3 style="color:#fde047;text-align:center;margin-bottom:4px">🙏 Cúng Dường & Gieo Duyên</h3>
+            <p style="font-size:11px;color:#fde68a;text-align:center;margin-bottom:10px">Chọn mức gieo duyên để tạo mã VietQR tự động</p>
             
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:10px">
-                <button class="dock-item" onclick="setDonateAmount(20000)">20.000đ (+50 🪷)</button>
-                <button class="dock-item" style="border-color:#fde047;color:#fde047" onclick="setDonateAmount(50000)">50.000đ (+150 🪷)</button>
-                <button class="dock-item" onclick="setDonateAmount(100000)">100.000đ (+350 🪷)</button>
-                <button class="dock-item" onclick="setDonateAmount(500000)">500.000đ (+2000 🪷)</button>
+                <button class="dock-item" onclick="updateVietQR(20000)">20.000đ (+50 🪷)</button>
+                <button class="dock-item" style="border-color:#fde047;color:#fde047" onclick="updateVietQR(50000)">50.000đ (+150 🪷)</button>
+                <button class="dock-item" onclick="updateVietQR(100000)">100.000đ (+350 🪷)</button>
+                <button class="dock-item" onclick="updateVietQR(200000)">200.000đ (+800 🪷)</button>
             </div>
-            <input id="inp-donor" class="text-input" style="width:100%;margin-bottom:8px" type="text" placeholder="Tên thí chủ cầu an...">
-            <input id="inp-wish" class="text-input" style="width:100%;margin-bottom:12px" type="text" placeholder="Lời nguyện cầu gia đạo bình an, tài lộc...">
-            <button class="gold-action-btn" style="width:100%;padding:10px" onclick="confirmDonate()">✨ Xác Nhận Cúng Dường & Thỉnh Chuông</button>
+
+            <!-- Khung Mã VietQR Tự Động (Có nút ẩn khi đang quay màn hình TikTok Live) -->
+            <div id="qr-box-wrapper" style="background:#ffffff;padding:8px;border-radius:12px;text-align:center;margin-bottom:10px">
+                <img id="vietqr-img" 
+                     src="" 
+                     alt="VietQR Gieo Duyên" 
+                     style="width:160px;height:auto;border-radius:8px;display:block;margin:0 auto">
+                <div id="vietqr-label" style="color:#1c1917;font-size:11px;font-weight:800;margin-top:4px">
+                    Quét mã bằng App Ngân hàng / MoMo (50.000đ)
+                </div>
+            </div>
+
+            <input id="inp-donor" class="text-input" style="width:100%;margin-bottom:6px" type="text" placeholder="Tên thí chủ / Pháp danh cầu an...">
+            <input id="inp-wish" class="text-input" style="width:100%;margin-bottom:10px" type="text" placeholder="Lời nguyện cầu bình an, tài lộc...">
+            
+            <button class="gold-action-btn" style="width:100%;padding:9px;margin-bottom:8px" onclick="confirmDonate()">
+                ✨ Xác Nhận Đã Cúng Dường & Thỉnh Chuông
+            </button>
+
+            <a id="tiktok-direct-link" href="https://www.tiktok.com" target="_blank"
+               style="display:block;text-align:center;background:#111827;color:#fff;border:1.5px solid #fe2c55;padding:8px;border-radius:8px;font-size:12px;font-weight:800;text-decoration:none">
+                🛒 Mở Giỏ Hàng Vật Phẩm Bình An trên TikTok Shop
+            </a>
         </div>
     </div>
 
@@ -926,32 +1017,72 @@
             <button class="close-btn" onclick="closeModal('gift-modal')">✕</button>
             <h3 style="color:#fde047;text-align:center;margin-bottom:12px">🦁 Tặng Hoa, Sư Tử & Vật Phẩm Công Đức</h3>
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
-                <button class="dock-item" style="padding:10px;text-align:center" onclick="sendGift('🌹 Hoa Hồng Cúng Phật', 5, '+20 Công Đức', '🌹')">
+                <button class="dock-item" style="padding:10px;text-align:center" onclick="sendGift('🌹 Hoa Hồng Cúng Phật', 5, '+20 Công Đức', '🌹', false)">
                     <div style="font-size:24px">🌹</div>
                     <div style="font-weight:bold;color:#fde047">Tặng Hoa Hồng</div>
                     <div style="font-size:10px;color:#a7f3d0">5 Sen · +20 Công Đức</div>
                 </button>
-                <button class="dock-item" style="padding:10px;text-align:center" onclick="sendGift('🪷 Hoa Sen Vàng', 15, '+60 Công Đức', '🪷')">
+                <button class="dock-item" style="padding:10px;text-align:center" onclick="sendGift('🪷 Hoa Sen Vàng', 15, '+60 Công Đức', '🪷', false)">
                     <div style="font-size:24px">🪷</div>
                     <div style="font-weight:bold;color:#fde047">Tặng Hoa Sen</div>
                     <div style="font-size:10px;color:#a7f3d0">15 Sen · +60 Công Đức</div>
                 </button>
-                <button class="dock-item" style="padding:10px;text-align:center;border-color:#fde047" onclick="sendGift('🦁 Sư Tử Vàng Hộ Pháp', 50, '+300 Công Đức', '🦁')">
+                <button class="dock-item" style="padding:10px;text-align:center;border-color:#fde047" onclick="sendGift('🦁 Sư Tử Vàng Hộ Pháp', 50, '+300 Công Đức', '🦁', false)">
                     <div style="font-size:24px">🦁</div>
                     <div style="font-weight:bold;color:#fde047">Tặng Sư Tử</div>
                     <div style="font-size:10px;color:#fde047">50 Sen · +300 Công Đức</div>
                 </button>
-                <button class="dock-item" style="padding:10px;text-align:center;border-color:#ef4444" onclick="sendGift('🔥 Phượng Hoàng Cát Tường', 100, '+800 Công Đức', '🔥')">
+                <button class="dock-item" style="padding:10px;text-align:center;border-color:#ef4444" onclick="sendGift('🔥 Phượng Hoàng Cát Tường', 100, '+800 Công Đức', '🔥', false)">
                     <div style="font-size:24px">🔥</div>
                     <div style="font-weight:bold;color:#fef08a">Phượng Hoàng</div>
                     <div style="font-size:10px;color:#fef08a">100 Sen · +800 Công Đức</div>
                 </button>
             </div>
-            <div style="font-size:11px;color:#fde68a;text-align:center">Mỗi lần tặng Hoa hoặc Sư Tử sẽ kích hoạt mưa hoa sen và vinh danh toàn sân chùa!</div>
+            <div style="font-size:11px;color:#fde68a;text-align:center">Mẹo Streamer: Bấm phím <b>1, 2, 3, 4</b> trên bàn phím máy tính để nổ hiệu ứng quà tặng miễn phí ngay trên sóng Live!</div>
         </div>
     </div>
 
-    <!-- ==================== MODAL 4: THẢ ĐÈN HOA ĐĂNG ==================== -->
+    <!-- ==================== MODAL 4: GIAN HÀNG VẬT PHẨM PHONG THỦY TIKTOK SHOP ==================== -->
+    <div id="shop-modal" class="modal-backdrop">
+        <div class="modal-box" style="max-width:430px">
+            <button class="close-btn" onclick="closeModal('shop-modal')">✕</button>
+            <h3 style="color:#fde047;text-align:center;margin-bottom:4px">🛒 Thỉnh Vật Phẩm Bình An (TikTok Shop)</h3>
+            <p style="font-size:11.5px;color:#fde68a;text-align:center;margin-bottom:12px">Vật phẩm phong thủy, trầm hương thanh tịnh trợ duyên tu tập</p>
+
+            <div class="shop-card">
+                <div style="font-size:28px">📿</div>
+                <div style="flex:1">
+                    <div style="font-weight:800;font-size:13px;color:#fef08a">Chuỗi Tràng Hạt 108 Hạt Gỗ Trầm</div>
+                    <div style="font-size:11px;color:#a7f3d0">Hương trầm tự nhiên, định tâm an thần</div>
+                </div>
+                <a class="shop-buy-btn tiktok-shop-url" href="https://www.tiktok.com" target="_blank">Thỉnh ngay</a>
+            </div>
+
+            <div class="shop-card">
+                <div style="font-size:28px">♨️</div>
+                <div style="flex:1">
+                    <div style="font-weight:800;font-size:13px;color:#fef08a">Nụ Trầm Hương & Lư Xông Khói Ngược</div>
+                    <div style="font-size:11px;color:#a7f3d0">Thanh lọc không gian, tụ khí cát tường</div>
+                </div>
+                <a class="shop-buy-btn tiktok-shop-url" href="https://www.tiktok.com" target="_blank">Thỉnh ngay</a>
+            </div>
+
+            <div class="shop-card">
+                <div style="font-size:28px">🪷</div>
+                <div style="flex:1">
+                    <div style="font-weight:800;font-size:13px;color:#fef08a">Đèn Hoa Sen Lưu Ly Để Bàn Thờ</div>
+                    <div style="font-size:11px;color:#a7f3d0">Ánh sáng ấm áp, trang nghiêm chánh điện</div>
+                </div>
+                <a class="shop-buy-btn tiktok-shop-url" href="https://www.tiktok.com" target="_blank">Thỉnh ngay</a>
+            </div>
+
+            <a class="shop-buy-btn tiktok-shop-url" href="https://www.tiktok.com" target="_blank" style="display:block;text-align:center;padding:10px;margin-top:10px;font-size:13px">
+                👉 Xem Toàn Bộ Giỏ Hàng Trên Kênh TikTok
+            </a>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL 5: THẢ ĐÈN HOA ĐĂNG ==================== -->
     <div id="lantern-modal" class="modal-backdrop">
         <div class="modal-box">
             <button class="close-btn" onclick="closeModal('lantern-modal')">✕</button>
@@ -965,6 +1096,15 @@
 
     <!-- ==================== SCRIPT XỬ LÝ TẤT CẢ TRONG 1 ==================== -->
     <script>
+        // =========================================================================
+        // CẤU HÌNH CÁ NHÂN CỦA BẠN (CHỈNH SỬA NGÂN HÀNG & LINK TIKTOK TẠI ĐÂY)
+        // =========================================================================
+        var MY_BANK_ID = "MB";                            // Mã ngân hàng (VD: MB, VCB, TCB, ACB, VietinBank, BIDV...)
+        var MY_ACCOUNT_NO = "0123456789";                 // Số tài khoản ngân hàng nhận Donate của bạn
+        var MY_ACCOUNT_NAME = "CHUA VO LUONG";            // Tên chủ tài khoản
+        var MY_TIKTOK_SHOP_URL = "https://www.tiktok.com"; // Dán link Kênh TikTok hoặc Giỏ hàng TikTok Shop của bạn vào đây
+        // =========================================================================
+
         var user = {
             username: "",
             name: "Khương Kháu Kỉnh",
@@ -977,24 +1117,46 @@
         var soundOn = true;
         var donateAmount = 50000;
 
+        // Cập nhật link TikTok Shop tự động cho mọi nút mua hàng
+        function initTikTokLinks() {
+            var direct = document.getElementById("tiktok-direct-link");
+            if (direct) direct.href = MY_TIKTOK_SHOP_URL;
+            var btns = document.querySelectorAll(".tiktok-shop-url");
+            for (var i = 0; i < btns.length; i++) {
+                btns[i].href = MY_TIKTOK_SHOP_URL;
+            }
+            updateVietQR(50000);
+        }
+
+        function updateVietQR(amount) {
+            donateAmount = amount;
+            var info = encodeURIComponent("Gieo duyen Chua Vo Luong");
+            var accName = encodeURIComponent(MY_ACCOUNT_NAME);
+            var qrUrl = "https://img.vietqr.io/image/" + MY_BANK_ID + "-" + MY_ACCOUNT_NO + "-compact2.png?amount=" + amount + "&addInfo=" + info + "&accountName=" + accName;
+            var imgEl = document.getElementById("vietqr-img");
+            var lblEl = document.getElementById("vietqr-label");
+            if (imgEl) imgEl.src = qrUrl;
+            if (lblEl) lblEl.innerText = "Quét mã bằng App Ngân hàng / MoMo (" + amount.toLocaleString() + "đ)";
+        }
+
         function getAccountsDB() {
             try {
-                var raw = localStorage.getItem('chua_accounts_v5');
+                var raw = localStorage.getItem('chua_accounts_v6');
                 return raw ? JSON.parse(raw) : {};
             } catch(e) { return {}; }
         }
         function saveAccountsDB(db) {
-            try { localStorage.setItem('chua_accounts_v5', JSON.stringify(db)); } catch(e) {}
+            try { localStorage.setItem('chua_accounts_v6', JSON.stringify(db)); } catch(e) {}
         }
 
         try {
-            var currentSession = localStorage.getItem('chua_session_v5');
+            var currentSession = localStorage.getItem('chua_session_v6');
             if (currentSession) user = JSON.parse(currentSession);
         } catch(e) {}
 
         function saveCurrentUserSession() {
             try {
-                localStorage.setItem('chua_session_v5', JSON.stringify(user));
+                localStorage.setItem('chua_session_v6', JSON.stringify(user));
                 if (user.isLoggedIn && user.username) {
                     var db = getAccountsDB();
                     if (db[user.username]) {
@@ -1027,6 +1189,7 @@
             }
         }
         refreshProfileUI();
+        initTikTokLinks();
 
         var guestSeconds = 300;
         setInterval(function() {
@@ -1201,7 +1364,7 @@
             playBell();
         }
 
-        // ==================== ĐỘNG CƠ VẼ SÂN CHÙA 2.5D HTML5 CANVAS (KHÔNG BAO GIỜ LỖI ĐEN MÀN HÌNH) ====================
+        // ==================== ĐỘNG CƠ VẼ SÂN CHÙA 2.5D HTML5 CANVAS ====================
         var canvas = document.getElementById('temple-canvas');
         var ctx = canvas.getContext('2d');
         var W = window.innerWidth;
@@ -1229,10 +1392,35 @@
             { name: "Hoàng Châu", level: 5, x: -0.05, y: 0.54, robe: "#f472b6" }
         ];
 
+        // PHÍM TẮT BÀN PHÍM CHO STREAMER LIVE (1, 2, 3, 4, 5, Space, H)
         window.addEventListener('keydown', function(e) {
+            var activeTag = document.activeElement ? document.activeElement.tagName.toLowerCase() : '';
+            if (activeTag === 'input' || activeTag === 'textarea') return;
             if (document.querySelector('.modal-backdrop.open')) return;
-            keys[e.key.toLowerCase()] = true;
-            if (e.code === 'Space') doAction('mo');
+
+            var k = e.key.toLowerCase();
+            keys[k] = true;
+
+            if (e.code === 'Space') {
+                e.preventDefault();
+                doAction('mo');
+            } else if (k === '1') {
+                sendGift('🌹 Hoa Hồng Cúng Phật', 0, '+20 Công Đức', '🌹', true);
+            } else if (k === '2') {
+                sendGift('🪷 Hoa Sen Vàng Tịnh Độ', 0, '+60 Công Đức', '🪷', true);
+            } else if (k === '3') {
+                sendGift('🦁 Sư Tử Vàng Hộ Pháp', 0, '+300 Công Đức', '🦁', true);
+            } else if (k === '4') {
+                sendGift('🔥 Phượng Hoàng Lửa Cát Tường', 0, '+800 Công Đức', '🔥', true);
+            } else if (k === '5') {
+                playBell();
+                blessingTimer = 2.2;
+                spawnLotusShower(35, '✨');
+                showFloatText('✨ Phật Phóng Hào Quang Gia Hộ Toàn Đạo Tràng!', '#fef08a');
+            } else if (k === 'h') {
+                var hb = document.getElementById('hotkey-bar');
+                if (hb) hb.style.display = (hb.style.display === 'none') ? 'flex' : 'none';
+            }
         });
         window.addEventListener('keyup', function(e) { keys[e.key.toLowerCase()] = false; });
 
@@ -1287,13 +1475,11 @@
             ctx.translate(cx, cy);
             ctx.scale(scale, scale);
 
-            // Bóng đổ dưới chân
             ctx.fillStyle = "rgba(0,0,0,0.45)";
             ctx.beginPath();
             ctx.ellipse(0, 36, 26, 9, 0, 0, Math.PI * 2);
             ctx.fill();
 
-            // Vòng Hào Quang Hoàng Kim sau lưng nhân vật chính
             if (hasHalo) {
                 ctx.save();
                 ctx.rotate(time * 0.8);
@@ -1314,7 +1500,6 @@
                 ctx.restore();
             }
 
-            // Thân Áo Tràng Cư Sĩ
             ctx.fillStyle = robeColor;
             ctx.strokeStyle = "#fde047";
             ctx.lineWidth = 2;
@@ -1327,13 +1512,11 @@
             ctx.fill();
             ctx.stroke();
 
-            // Đầu nhân vật
             ctx.fillStyle = "#ffe0c4";
             ctx.beginPath();
             ctx.arc(0, -24, 21, 0, Math.PI * 2);
             ctx.fill();
 
-            // Tóc búi & Trâm cài
             ctx.fillStyle = "#3b2313";
             ctx.beginPath();
             ctx.arc(0, -25, 20, 0, Math.PI * 2);
@@ -1343,7 +1526,6 @@
             ctx.arc(0, -22, 11, 0, Math.PI * 2);
             ctx.fill();
 
-            // Trâm cài tóc bạc
             ctx.strokeStyle = "#e2e8f0";
             ctx.lineWidth = 3;
             ctx.beginPath();
@@ -1351,7 +1533,6 @@
             ctx.lineTo(18, -19);
             ctx.stroke();
 
-            // Bảng Tên Pháp Danh trên đỉnh đầu
             ctx.font = "bold 12px 'Segoe UI', sans-serif";
             var textW = ctx.measureText(nameText).width + 34;
             ctx.fillStyle = "rgba(15, 8, 4, 0.85)";
@@ -1377,14 +1558,12 @@
 
             var horizonY = H * 0.44;
 
-            // 1. Vẽ mặt sân chùa cổ kính phía dưới chân trời
             var groundGrad = ctx.createLinearGradient(0, horizonY, 0, H);
             groundGrad.addColorStop(0, "rgba(68, 32, 12, 0.88)");
             groundGrad.addColorStop(1, "rgba(28, 14, 6, 0.98)");
             ctx.fillStyle = groundGrad;
             ctx.fillRect(0, horizonY, W, H - horizonY);
 
-            // 2. Vẽ Hồ Sen Ngọc Bích ở giữa sân chùa
             ctx.save();
             ctx.fillStyle = "#0d4740";
             ctx.strokeStyle = "#d97706";
@@ -1394,7 +1573,6 @@
             ctx.fill();
             ctx.stroke();
 
-            // Hoa sen nổi trên hồ
             for (var i = -3; i <= 3; i++) {
                 var lx = W * 0.5 + i * 52;
                 var ly = horizonY + 32 + Math.sin(time * 2 + i) * 3;
@@ -1403,7 +1581,6 @@
             }
             ctx.restore();
 
-            // 3. Vẽ Con Đường Lát Đá & Thảm Đỏ Dẫn Lên Chánh Điện (Phối cảnh 3D)
             ctx.save();
             ctx.fillStyle = "#443830";
             ctx.beginPath();
@@ -1414,7 +1591,6 @@
             ctx.closePath();
             ctx.fill();
 
-            // Vân gạch đá ngang trên đường
             ctx.strokeStyle = "rgba(251, 191, 36, 0.22)";
             ctx.lineWidth = 1.5;
             for (var r = 1; r <= 7; r++) {
@@ -1427,7 +1603,6 @@
             }
             ctx.restore();
 
-            // 4. Vẽ Hàng Lồng Đèn Đỏ Phát Sáng 2 Bên Đường
             [-1, 1].forEach(function(side) {
                 for (var idx = 1; idx <= 3; idx++) {
                     var prog = idx / 3.4;
@@ -1436,11 +1611,9 @@
                     var px = W * 0.5 + side * spread;
                     var sc = 0.65 + prog * 0.5;
 
-                    // Cột gỗ
                     ctx.fillStyle = "#451a03";
                     ctx.fillRect(px - 3 * sc, py - 75 * sc, 6 * sc, 75 * sc);
 
-                    // Lồng đèn đỏ rực
                     ctx.fillStyle = "#ef4444";
                     ctx.beginPath();
                     ctx.arc(px, py - 75 * sc, 14 * sc, 0, Math.PI * 2);
@@ -1451,7 +1624,6 @@
                 }
             });
 
-            // 5. Cập nhật vị trí người chơi
             var vx = moveVec.x;
             var vy = moveVec.y;
             if (keys['w'] || keys['arrowup']) vy = -1;
@@ -1464,14 +1636,12 @@
                 playerPos.y = Math.max(0.56, Math.min(0.86, playerPos.y + vy * 0.004));
             }
 
-            // 6. Vẽ Đồng Tu NPC
             npcs.forEach(function(n, idx) {
                 var nx = W * 0.5 + n.x * Math.min(W, 800);
                 var ny = H * n.y + Math.sin(time * 2 + idx) * 2;
                 drawChibiAvatar(nx, ny, 0.78, n.robe, n.name, n.level, false, time);
             });
 
-            // 7. Vẽ Nhân Vật Chính Của Bạn
             var px = W * 0.5 + playerPos.x * Math.min(W, 800);
             var py = H * playerPos.y + (isBowing ? 8 : 0);
 
@@ -1492,7 +1662,6 @@
 
             drawChibiAvatar(px, py, 1.05, user.robe || "#f59e0b", user.name, user.level, true, time);
 
-            // 8. Vẽ Mưa Hoa Sen & Quà Tặng Rơi
             for (var p = fallingPetals.length - 1; p >= 0; p--) {
                 var item = fallingPetals[p];
                 item.y += item.vy;
@@ -1522,12 +1691,6 @@
                 user.merit += 5;
                 saveCurrentUserSession(); refreshProfileUI();
                 showFloatText('🙇 Nhất Tâm Lạy Phật (+5 Công Đức)', '#86efac');
-            } else if (act === 'kinh') {
-                playBell();
-                blessingTimer = 1.0;
-                user.merit += 5;
-                saveCurrentUserSession(); refreshProfileUI();
-                showFloatText('📖 Tụng Kinh Cầu An (+5 Công Đức)', '#93c5fd');
             } else if (act === 'xam') {
                 var list = [
                     "Quẻ Thượng Thượng Cát: Chư Phật gia hộ, gia đạo bình an, tài lộc viên mãn.",
@@ -1539,86 +1702,4 @@
         }
 
         function openModal(id) { document.getElementById(id).classList.add('open'); }
-        function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-        function toggleMobPanel(id) { document.getElementById(id).classList.toggle('show-mob'); }
-
-        function setDonateAmount(a) { donateAmount = a; }
-        function confirmDonate() {
-            var dName = document.getElementById('inp-donor').value.trim() || user.name;
-            var dWish = document.getElementById('inp-wish').value.trim() || "Gia đạo bình an, vạn sự cát tường";
-            closeModal('donate-modal');
-            playBell();
-            blessingTimer = 1.5;
-            spawnLotusShower(25, '🪷');
-
-            var bonusSen = Math.floor(donateAmount / 400);
-            var bonusMerit = Math.floor(donateAmount / 100);
-            user.sen += bonusSen;
-            user.merit += bonusMerit;
-            saveCurrentUserSession();
-            refreshProfileUI();
-
-            document.getElementById('marquee-box').innerHTML = '🌟 Công đức vô lượng: Thí chủ <b style="color:#fde047">' + dName + '</b> vừa cúng dường ' + donateAmount.toLocaleString() + 'đ — Cầu nguyện: ' + dWish + '!';
-            showFloatText('🙏 Cúng Dường Viên Mãn +' + bonusMerit + ' Công Đức', '#fde047');
-        }
-
-        // Hiệu ứng Tặng Hoa, Sư Tử, Phượng Hoàng
-        var bannerTimeout = null;
-        function sendGift(giftName, senCost, meritBonus, iconChar) {
-            if (user.sen < senCost) {
-                alert('⚠️ Bạn cần ' + senCost + ' Sen để tặng vật phẩm này! Hãy bấm nút "Cúng Dường" để nhận thêm Sen.');
-                return;
-            }
-            user.sen -= senCost;
-            user.merit += senCost * 4;
-            saveCurrentUserSession();
-            refreshProfileUI();
-            closeModal('gift-modal');
-            playBell();
-            blessingTimer = 1.8;
-            spawnLotusShower(30, iconChar || '🪷');
-
-            // Hiển thị bảng vinh danh Sư Tử / Quà tặng giữa màn hình
-            var banner = document.getElementById('big-gift-banner');
-            document.getElementById('big-gift-icon').innerText = iconChar || '🦁';
-            document.getElementById('big-gift-title').innerText = giftName;
-            document.getElementById('big-gift-sub').innerText = user.name + ' vừa dâng tặng (' + meritBonus + ')';
-            banner.classList.add('show');
-            if (bannerTimeout) clearTimeout(bannerTimeout);
-            bannerTimeout = setTimeout(function() {
-                banner.classList.remove('show');
-            }, 3200);
-
-            document.getElementById('marquee-box').innerHTML = '🦁 Đại Hỷ: Phật tử <b style="color:#fde047">' + user.name + '</b> vừa dâng tặng <b>' + giftName + '</b> (' + meritBonus + ')!';
-            showFloatText(iconChar + ' ' + giftName + ' ' + meritBonus, '#fde047');
-        }
-
-        function submitLantern() {
-            var txt = document.getElementById('inp-lantern').value.trim();
-            if (!txt) return;
-            var box = document.getElementById('prayer-list');
-            var card = document.createElement('div');
-            card.className = 'prayer-card';
-            card.innerHTML = '<div style="font-weight:700;color:#fff">“' + txt + '”</div><div style="font-size:10px;color:#fbbf24;margin-top:3px;display:flex;justify-content:space-between"><span>' + user.name + ' · vừa xong</span><span>❤️ 1</span></div>';
-            box.prepend(card);
-            document.getElementById('inp-lantern').value = '';
-            closeModal('lantern-modal');
-            blessingTimer = 1.2;
-            spawnLotusShower(12, '🏮');
-            showFloatText('🏮 Đã thả hoa đăng lên hồ sen', '#fdba74');
-        }
-
-        function sendChat() {
-            var inp = document.getElementById('chat-inp');
-            var m = inp.value.trim();
-            if (!m) return;
-            var list = document.getElementById('chat-list');
-            var row = document.createElement('div');
-            row.innerHTML = '<b style="color:#fde047">' + user.name + ':</b> ' + m;
-            list.appendChild(row);
-            list.scrollTop = list.scrollHeight;
-            inp.value = '';
-        }
-    </script>
-</body>
-</html>
+        function closeModal(id) { document.get
